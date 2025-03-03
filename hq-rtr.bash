@@ -22,7 +22,7 @@ rtr_user=$13
 rtr_uid=$14
 
 
-if (( $# < 9 )); then
+if (( $# < 14 )); then
 	echo "Бивень, надо так:"
 	echo "$0 interface1 int2(srv) int3(cli) ip_addr_int2 ip_addr_int3 managment_ip vid-srv vid-cli vid-managment iptun_addr br-ip-int1 hostname user uid"
 	exit 1
