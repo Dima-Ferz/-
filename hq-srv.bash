@@ -8,7 +8,7 @@ vid_srv=$5
 vid_mngt=$6
 ip_mngt=$7
 
-if (( $# < 6 )); then
+if (( $# < 7 )); then
 	echo "Бивень, надо так:"
 	echo "$0 int1 hq-srv_hostname srv_user srv_uid vid_srv vid_managment ip_mngt"
 	exit 1
