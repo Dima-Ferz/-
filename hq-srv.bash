@@ -1,14 +1,24 @@
 #!/bin/bash
 
-hq_srv_hostname=$1
-srv_user=$2
-srv_uid=$3
+int1=$1
+hq_srv_hostname=$2
+srv_user=$3
+srv_uid=$4
+vid_srv=$5
+vid_mngt=$6
+ip_mngt=$7
 
-if (( $# < 3 )); then
+if (( $# < 6 )); then
 	echo "Бивень, надо так:"
-	echo "$0 hq-srv_hostname srv_user srv_uid"
+	echo "$0 int1 hq-srv_hostname srv_user srv_uid vid_srv vid_managment ip_mngt"
 	exit 1
 fi
+
+echo "Пинаем управленьческий int"
+mkdir /etc/net/ifaces/$int1.$vid_mngt
+cp /etc/net/ifaces/$int1/options /etc/net/ifaces/$int1.$vid_mngt/options
+sed -i "s/VID=$vid_srv/VID=$vid_nmgt/" /etc/net/ifaces/$int1.$vid_mngt/options
+echo "$ip_mngt" > /etc/net/ifaces//etc/net/ifaces/$int1.$vid_mngt/ipv4address
 
 ###
 echo "Меняем имя хоста, настраиваем время"
@@ -21,7 +31,6 @@ echo "Authorized access only" > /etc/banner
 echo "Banner /etc/banner" >> /etc/openssh/sshd_config
 
 sed -i 's/#Port 22/Port 2024/g' /etc/openssh/sshd_config
-#tEstIng thIs OnE
 sed -i 's/#MaxAuthTries 6/MaxAuthTries 2/' /etc/openssh/sshd_config
 echo "AllowUsers $srv_user" >> /etc/openssh/sshd_config
 
