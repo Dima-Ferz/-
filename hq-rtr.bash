@@ -57,10 +57,10 @@ CONFIG_WIRELESS=no
 " > /etc/net/ifaces/$hq_rtr_int2.$vid_srv/options
 
 cp /etc/net/ifaces/$hq_rtr_int2.$vid_srv/options /etc/net/ifaces/$hq_rtr_int2.$vid_cli/options
-sed -i 's/VID=$vid_srv/VID=$vid_cli/' /etc/net/ifaces/$hq_rtr_int2.$vid_cli/options
+sed -i "s/VID=$vid_srv/VID=$vid_cli/" /etc/net/ifaces/$hq_rtr_int2.$vid_cli/options
 
 cp /etc/net/ifaces/$hq_rtr_int2.$vid_srv/options /etc/net/ifaces/$hq_rtr_int2.$vid_mgnt/options
-sed -i 's/VID=$vid_srv/VID=$vid_mgnt/' /etc/net/ifaces/$hq_rtr_int2.$vid_mgnt/options
+sed -i "s/VID=$vid_srv/VID=$vid_mgnt/" /etc/net/ifaces/$hq_rtr_int2.$vid_mgnt/options
 
 echo "TYPE=iptun
 TUNTYPE=gre
