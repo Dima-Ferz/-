@@ -3,13 +3,12 @@
 
 hq_rtr_int1=$1
 hq_rtr_int2=$2
-hq_rtr_int3=$3
-hq_rtr_ip_int2=$4
-hq_rtr_ip_int3=$5
-mgmt_ip=$6
-vid_srv=$7
-vid_cli=$8
-vid_mgnt=$9
+hq_rtr_ip_int2=$3
+hq_rtr_ip_int3=$4
+mgmt_ip=$5
+vid_srv=$6
+vid_cli=$7
+vid_mgnt=$8
 
 addr2=`echo $hq_rtr_ip_int2 | awk -F/ '{ print $1 }' | sed 's/.$/0/'`
 mask2=`echo $hq_rtr_ip_int2 | awk -F/ '{ print $2 }'`
@@ -19,17 +18,17 @@ addr3=`echo $hq_rtr_ip_int3 | awk -F/ '{ print $1 }' | sed 's/.$/0/'`
 mask3=`echo $hq_rtr_ip_int3 | awk -F/ '{ print $2 }'`
 net_int3=$addr3/$mask3
 
-ip_int1=`cat /etc/net/$hq_rtr_int1/ipv4address` | awk -F/ '{ print $1 }'
+ip_int1=`cat /etc/net/$hq_rtr_int1/ipv4address | awk -F/ '{ print $1 }'`
 
-hq_rtr_iptun=$10
-br_rtr_ip_int1=$11
-hq_rtr_hostname=$12
-rtr_user=$13
+hq_rtr_iptun=$9
+br_rtr_ip_int1=${10}
+hq_rtr_hostname=${11}
+rtr_user=${12}
 
 
-if (( $# < 13 )); then
+if (( $# < 12 )); then
 	echo "Бивень, надо так:"
-	echo "$0 interface1 int2(srv) int3(cli) ip_addr_int2 ip_addr_int3 managment_ip vid-srv vid-cli vid-managment iptun_addr br-ip-int1 hostname user"
+	echo "$0 interface1 int2(srv) ip_addr_int2 ip_addr_int3 managment_ip vid-srv vid-cli vid-managment iptun_addr br-ip-int1 hostname user"
 	exit 1
 fi
 
@@ -47,7 +46,6 @@ TYPE=eth
 DISABLED=no
 CONFIG_IPV4=yes
 " > /etc/net/ifaces/$hq_rtr_int2/options
-cp /etc/net/ifaces/$hq_rtr_int2/options /etc/net/ifaces/$hq_rtr_int3/options
 
 echo "TYPE=vlan
 HOST=$hq_rtr_int2
