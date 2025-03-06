@@ -22,7 +22,7 @@ echo "Banner /etc/banner" >> /etc/openssh/sshd_config
 
 sed -i 's/#Port 22/Port 2024/g' /etc/openssh/sshd_config
 #tEstIng thIs OnE
-sed -i 's/#MaxAuthTries*$/MaxAuthTries 2/' /etc/openssh/sshd_config
+sed -i 's/#MaxAuthTries 6/MaxAuthTries 2/' /etc/openssh/sshd_config
 echo "AllowUsers $srv_user" >> /etc/openssh/sshd_config
 
 systemctl restart sshd
