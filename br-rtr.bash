@@ -2,23 +2,24 @@
 
 br_rtr_int1=$1
 br_rtr_int2=$2
-br_rtr_ip_int1=$3
-br_rtr_ip_int2=$4
-hq_rtr_ip_int1=$5
+br_rtr_ip_int2=$3
+hq_rtr_ip_int1=$4
 
 addr2=`echo $br_rtr_int2 | awk -F/ '{ print $1 }' | sed 's/.$/0/'`
 mask2=`echo $br_rtr_int2 | awk -F/ '{ print $2 }'`
 net_int2=$addr2/$mask2
 
-br_rtr_iptun=$6
-br_rtr_hostname=$7
-rtr_user=$8
-rtr_uid=$9
+ip_int1=`cat /etc/net/ifaces/$br_rtr_int1/ipv4address`
+
+br_rtr_iptun=$5
+br_rtr_hostname=$6
+rtr_user=$7
+rtr_uid=$8
 
 
 if (( $# < 8 )); then
 	echo "Бивень, надо так:"
-	echo "$0 interface1 int2 ip-addr-int1 ip_addr_int2 hq-rtr-ip-int1 iptun_addr hostname user uid"
+	echo "$0 interface1 int2 ip_addr_int2 hq-rtr-ip-int1 iptun_addr hostname user uid"
 	exit 1
 fi
 
@@ -35,7 +36,7 @@ CONFIG_IPV4=yes
 
 echo "TYPE=iptun
 TUNTYPE=gre
-TUNLOCAL=$br_rtr_ip_int1
+TUNLOCAL=$ip_int1
 TUNREMOTE=$hq_rtr_ip_int1
 TUNOPTIONS='ttl 64'
 HOST=$br_rtr_int1
