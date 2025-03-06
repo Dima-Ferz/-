@@ -11,20 +11,25 @@ vid_srv=$7
 vid_cli=$8
 vid_mgnt=$9
 
-addr2=`echo $br-rtr_int2 | awk -F/ '{ print $1 }' | sed 's/.$/0/'`
-mask2=`echo $br-rtr_int2 | awk -F/ '{ print $2 }'`
+addr2=`echo $hq_rtr_ip_int2 | awk -F/ '{ print $1 }' | sed 's/.$/0/'`
+mask2=`echo $hq_rtr_ip_int2 | awk -F/ '{ print $2 }'`
 net_int2=$addr2/$mask2
+
+addr3=`echo $hq_rtr_ip_int3 | awk -F/ '{ print $1 }' | sed 's/.$/0/'`
+mask3=`echo $hq_rtr_ip_int3 | awk -F/ '{ print $2 }'`
+net_int3=$addr3/$mask3
+
+ip_int1=`cat /etc/net/$hq_rtr_int1/ipv4address` | awk -F/ '{ print $1 }'
 
 hq_rtr_iptun=$10
 br_rtr_ip_int1=$11
 hq_rtr_hostname=$12
 rtr_user=$13
-rtr_uid=$14
 
 
-if (( $# < 14 )); then
+if (( $# < 13 )); then
 	echo "Бивень, надо так:"
-	echo "$0 interface1 int2(srv) int3(cli) ip_addr_int2 ip_addr_int3 managment_ip vid-srv vid-cli vid-managment iptun_addr br-ip-int1 hostname user uid"
+	echo "$0 interface1 int2(srv) int3(cli) ip_addr_int2 ip_addr_int3 managment_ip vid-srv vid-cli vid-managment iptun_addr br-ip-int1 hostname user"
 	exit 1
 fi
 
@@ -61,7 +66,7 @@ sed -i 's/VID=$vid_srv/VID=$vid_mgnt/' /etc/net/ifaces/$hq_rtr_int2.$vid_mgnt/op
 
 echo "TYPE=iptun
 TUNTYPE=gre
-TUNLOCAL=`cat /etc/net/$hq_rtr_int1/ipv4address`
+TUNLOCAL=$ip_int1
 TUNREMOTE=$br_rtr_ip_int1
 TUNOPTIONS='ttl 64'
 HOST=$hq_rtr_int1
@@ -89,13 +94,14 @@ apt-get update && apt-get install -y nftables && systemctl enable --now nftables
 nft add table ip nat
 nft add chain ip nat postrouting '{ type nat hook postrouting priority 0; }'
 nft add rule ip nat postrouting ip saddr $net_int2 oifname "$hq_rtr_int1" counter masquerade
+nft add rule ip nat postrouting ip saddr $net_int3 oifname "$hq_rtr_int1" counter masquerade
 
 nft list ruleset | tail -n7 | tee -a /etc/nftables/nftables.nft
 systemctl restart nftables && systemctl restart network
 
 ###
 echo "Создаём пользователя. Пароль пишем ручками. Ибо я устал. =-="
-adduser $rtr_user -u $rtr_uid
+adduser $rtr_user
 echo "$rtr_user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 usermod -aG wheel $rtr_user
 passwd $rtr_user
