@@ -7,10 +7,11 @@ srv_uid=$4
 vid_srv=$5
 vid_mngt=$6
 ip_mngt=$7
+port=$8
 
-if (( $# < 7 )); then
+if (( $# < 8 )); then
 	echo "Бивень, надо так:"
-	echo "$0 int1 hq-srv_hostname srv_user srv_uid vid_srv vid_managment ip_mngt"
+	echo "$0 int1 hq-srv_hostname srv_user srv_uid vid_srv vid_managment ip_mngt port"
 	exit 1
 fi
 
@@ -30,7 +31,7 @@ echo "Настраиваем удалённый доступ"
 echo "Authorized access only" > /etc/banner
 echo "Banner /etc/banner" >> /etc/openssh/sshd_config
 
-sed -i 's/#Port 22/Port 2024/g' /etc/openssh/sshd_config
+sed -i "s/#Port 22/Port $port/g" /etc/openssh/sshd_config
 sed -i 's/#MaxAuthTries 6/MaxAuthTries 2/' /etc/openssh/sshd_config
 echo "AllowUsers $srv_user" >> /etc/openssh/sshd_config
 
@@ -55,5 +56,3 @@ sed -i 's/listen-on { 127.0.0.0; }/listen-on { any; }/' /etc/bind/options.conf
 sed -i 's\listen-on6\//listen-on-v6\' /etc/bind/options.conf
 sed -i 's/forwarders blabla/forwarders { 77.88.8.8; }/' /etc/bind/options.conf
 sed -i 's/allow-query { bla; }/allow-query { any; }/' /etc/bind/options.conf
-
-
