@@ -5,7 +5,7 @@ srv_user=$2
 srv_uid=$3
 port=$4
 
-if (( $# < 3 )); then
+if (( $# < 4 )); then
 	echo "Бивень, надо так:"
 	echo "$0 br-srv_hostname srv_user srv_uid port"
 	exit 1
