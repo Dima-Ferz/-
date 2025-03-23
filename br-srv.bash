@@ -3,10 +3,11 @@
 br_srv_hostname=$1
 srv_user=$2
 srv_uid=$3
+port=$4
 
 if (( $# < 3 )); then
 	echo "Бивень, надо так:"
-	echo "$0 br-srv_hostname srv_user srv_uid"
+	echo "$0 br-srv_hostname srv_user srv_uid port"
 	exit 1
 fi
 
@@ -21,7 +22,7 @@ echo "Настраиваем удалённый доступ"
 echo "Authorized access only" > /etc/banner
 echo "Banner /etc/banner" >> /etc/openssh/sshd_config
 
-sed -i 's/#Port 22/Port 2024/g' /etc/openssh/sshd_config
+sed -i "s/#Port 22/Port $port/g" /etc/openssh/sshd_config
 sed -i 's/#MaxAuthTries 6/MaxAuthTries 2/' /etc/openssh/sshd_config
 echo "AllowUsers $srv_user" >> /etc/openssh/sshd_config
 
