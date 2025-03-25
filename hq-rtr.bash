@@ -18,7 +18,7 @@ addr3=`echo $hq_rtr_ip_int3 | awk -F/ '{ print $1 }' | sed 's/.$/0/'`
 mask3=`echo $hq_rtr_ip_int3 | awk -F/ '{ print $2 }'`
 net_int3=$addr3/$mask3
 
-ip_int1=`cat /etc/net/$hq_rtr_int1/ipv4address | awk -F/ '{ print $1 }'`
+ip_int1=`cat /etc/net/ifaces/$hq_rtr_int1/ipv4address | awk -F/ '{ print $1 }'`
 
 hq_rtr_iptun=$9
 br_rtr_ip_int1=${10}
