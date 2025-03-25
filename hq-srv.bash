@@ -17,9 +17,9 @@ fi
 
 echo "Пинаем управленьческий int"
 mkdir /etc/net/ifaces/$int1.$vid_mngt
-cp /etc/net/ifaces/$int1/options /etc/net/ifaces/$int1.$vid_mngt/options
+cp /etc/net/ifaces/$int1.$vid_srv/options /etc/net/ifaces/$int1.$vid_mngt/options
 sed -i "s/VID=$vid_srv/VID=$vid_nmgt/" /etc/net/ifaces/$int1.$vid_mngt/options
-echo "$ip_mngt" > /etc/net/ifaces//etc/net/ifaces/$int1.$vid_mngt/ipv4address
+echo "$ip_mngt" > /etc/net/ifaces/$int1.$vid_mngt/ipv4address
 
 ###
 echo "Меняем имя хоста, настраиваем время"
@@ -54,5 +54,5 @@ apt-get update && apt-get install bind bind-utils && systemctl enable --now bind
 
 sed -i 's/listen-on { 127.0.0.0; }/listen-on { any; }/' /etc/bind/options.conf
 sed -i 's\listen-on6\//listen-on-v6\' /etc/bind/options.conf
-sed -i 's/forwarders blabla/forwarders { 77.88.8.8; }/' /etc/bind/options.conf
+sed -i 's/forwarders only/forwarders { 77.88.8.8; }/' /etc/bind/options.conf
 sed -i 's/allow-query { bla; }/allow-query { any; }/' /etc/bind/options.conf
