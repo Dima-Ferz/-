@@ -9,7 +9,7 @@ addr2=`echo $br_rtr_ip_int2 | awk -F/ '{ print $1 }' | sed 's/.$/0/'`
 mask2=`echo $br_rtr_ip_int2 | awk -F/ '{ print $2 }'`
 net_int2=$addr2/$mask2
 
-ip_int1=`cat /etc/net/ifaces/$br_rtr_int1/ipv4address`
+ip_int1=`cat /etc/net/ifaces/$br_rtr_int1/ipv4address` | awk -F/ '{ print $1 }'
 
 br_rtr_iptun=$5
 br_rtr_hostname=$6
