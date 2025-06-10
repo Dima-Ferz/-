@@ -45,7 +45,7 @@ usermod -aG wheel $srv_user
 passwd $srv_user
 
 echo "Скачиваем dns. Ничего страшного, если не скачается"
-apt-get install -y pt-get install bind bind-utils
+apt-get install -y bind bind-utils
 
 exit 0
 
