@@ -77,4 +77,7 @@ passwd $rtr_user
 echo "Настроили интерфейсы, nftables, время, создали пользователя, поменяли имя хоста"
 ping -c4 77.88.8.8 && nft list ruleset
 
+echo "Скачиваем ffr. Ничего страшного, если не скачается"
+apt-get install -y frr
+
 exit 0
