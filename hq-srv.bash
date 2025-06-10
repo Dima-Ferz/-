@@ -44,9 +44,10 @@ echo "$srv_user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 usermod -aG wheel $srv_user
 passwd $srv_user
 
+echo "Скачиваем dns. Ничего страшного, если не скачается"
+apt-get install -y pt-get install bind bind-utils
 
 exit 0
-
 
 ###
 echo "Настройка DNS"
