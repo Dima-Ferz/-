@@ -108,4 +108,7 @@ passwd $rtr_user
 echo "Настроили интерфейсы, nftables, время, создали пользователя, поменяли имя хоста"
 nft list ruleset && ping -c4 77.88.8.8
 
+echo "Скачиваем ffr и dhcp. Ничего страшного, если не скачается"
+apt-get install -y frr dhcp-server
+
 exit 0
